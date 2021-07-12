@@ -27,12 +27,35 @@ const Result = (props) => {
             })
     }, [props.resource, props.idAPI])
 
+    let res = [];
+    let i = 0;
+    for (let key in results){
+        if (i < 5) {
+        let ogKey = key;
+        key = key[0].toUpperCase() + key.slice(1);
+        res.push({'key': key,'result': results[ogKey]});
+        i++;
+        } else {
+            break;
+        }
+    }
+
     return (
         <div>
             {
                 error ?
-                <p>{error}</p> :
-                <p>{results.name}</p>
+                <div>
+                    <img src="src/components/obi-wan.jpg"/>
+                    <h5>{error}</h5>
+                    <p style={{color: 'red'}}>{props.resource} {props.idAPI} does not exist!</p>
+                </div> :
+                <div>
+                    {
+                        res.map( attr => {
+                            return <p>{attr.key}: {attr.result}</p>
+                        })
+                    }
+                </div>
             }
         </div>
     )
